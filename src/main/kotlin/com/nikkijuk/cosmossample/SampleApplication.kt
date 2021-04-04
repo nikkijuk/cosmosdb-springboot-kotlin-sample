@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
-import reactor.core.publisher.Flux
 
 @SpringBootApplication
 class SampleApplication : CommandLineRunner {
@@ -20,14 +18,12 @@ class SampleApplication : CommandLineRunner {
     lateinit var reactiveUserRepository: ReactiveUserRepository
 
     override fun run(vararg var1: String?) {
-        val testAdress1 = Address("Waldstrasse 1", "04105", "Leipzig")
-        val testAdress2 = Address("Christianstrasse 2", "04105", "Leipzig")
-        val testAdress3 = Address("Lindenauer Markt 21",         "04177", "Leipzig")
+        val address1 = Address("Waldstrasse 1", "04105", "Leipzig")
+        val address2 = Address("Christianstrasse 2", "04105", "Leipzig")
+        val address3 = Address("Lindenauer Markt 21", "04177", "Leipzig")
 
-        val testUser1 = User("testId1", "testFirstName", "testLastName1",
-                listOf(testAdress1, testAdress2))
-        val testUser2 = User("testId2", "testFirstName", "testLastName2",
-                listOf(testAdress2, testAdress3))
+        val user1 = User("testId1", "testFirstName", "testLastName1", listOf(address1, address2))
+        val user2 = User("testId2", "testFirstName", "testLastName2", listOf(address2, address3))
         logger.info("Using sync repository")
 
         // <Delete>
@@ -36,15 +32,15 @@ class SampleApplication : CommandLineRunner {
         // </Delete>
 
         // <Create>
-        logger.info("Saving user : {}", testUser1)
-        userRepository.save(testUser1)
+        logger.info("Saving user : {}", user1)
+        userRepository.save(user1)
 
         // </Create>
-        logger.info("Saving user : {}", testUser2)
-        userRepository.save(testUser2)
+        logger.info("Saving user : {}", user2)
+        userRepository.save(user2)
 
         // to find by Id, please specify partition key value if collection is partitioned
-        val result: User = userRepository.findByIdAndLastName(testUser1.id, testUser1.lastName)
+        val result: User = userRepository.findByIdAndLastName(user1.id, user1.lastName)
         logger.info("Found user : {}", result)
 
         val usersIterator = userRepository.findByFirstName("testFirstName").iterator()
@@ -76,6 +72,10 @@ class SampleApplication : CommandLineRunner {
         // </Query>
     }
 
+    /**
+     * It shouldn't be needed to use companion object here,
+     * but something seems to be missing in pom.xml
+     */
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {

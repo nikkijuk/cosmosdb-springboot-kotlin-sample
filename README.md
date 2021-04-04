@@ -15,7 +15,7 @@ https://docs.microsoft.com/en-us/azure/cosmos-db/create-sql-api-spring-data
 ## Prerequisites
 
 - Kotlin
-- Maven.
+- Maven
 - An active Azure account.
     - If you don't have one, you can sign up for a [free account](https://azure.microsoft.com/free/).
 - Cosmos db configured
@@ -50,3 +50,7 @@ https://docs.microsoft.com/en-us/java/api/overview/azure/spring-boot-starter-cos
 documentation of latest spring data cosmos db version
 
 https://docs.microsoft.com/en-us/java/api/overview/azure/spring-data-cosmos-readme?view=azure-java-stable
+
+Guide to write cosmos db queries
+
+https://cosmosdb.github.io/labs/dotnet/labs/03-querying_in_azure_cosmosdb.html

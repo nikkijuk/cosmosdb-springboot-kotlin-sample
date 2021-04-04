@@ -2,6 +2,9 @@ package com.nikkijuk.cosmossample
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 
+/**
+ * All these settings are to be filled and thus lateinit is used here
+ */
 @ConfigurationProperties(prefix = "cosmos")
 class CosmosProperties {
     lateinit var uri: String
