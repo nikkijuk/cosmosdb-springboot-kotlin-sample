@@ -20,8 +20,10 @@ class SampleAppController @Autowired constructor(
 
     override fun createUser(@RequestBody user: User): ResponseEntity<User> {
         LOGGER.info("create")
-        // TODO: create user
-        return ResponseEntity(HttpStatus.OK)
+        val user = userRepository.save(user.toEntity())
+        LOGGER.info("saved user " + user.toString())
+        return ResponseEntity(user.toApi(), HttpStatus.OK)
+        return ResponseEntity(user.toApi(), HttpStatus.OK)
     }
 
     override fun findUsers(): ResponseEntity<List<User>> {

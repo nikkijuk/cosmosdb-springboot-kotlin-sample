@@ -1,5 +1,8 @@
 package com.nikkijuk.cosmossample
 
+
+// to api
+
 // Type erasure removes here java typing and thus create method collision
 @JvmName("UserListToApi")
 fun List<com.nikkijuk.cosmossample.User>.toApi () =
@@ -7,10 +10,10 @@ fun List<com.nikkijuk.cosmossample.User>.toApi () =
 
 fun com.nikkijuk.cosmossample.User.toApi () =
         com.nikkijuk.model.User (
-                this.id,
-                this.firstName,
-                this.lastName,
-                this.addresses.toApi()
+                id = this.id,
+                firstName = this.firstName,
+                lastName = this.lastName,
+                addresses = this.addresses.toApi()
         )
 
 // Type erasure removes here java typing and thus create method collision
@@ -25,3 +28,24 @@ fun com.nikkijuk.cosmossample.Address.toApi () =
                         city = this.city
                         )
 
+// to entity
+
+fun com.nikkijuk.model.User.toEntity () =
+        com.nikkijuk.cosmossample.User (
+                id = this.id,
+                firstName = this.firstName,
+                lastName = this.lastName,
+                addresses = this.addresses.toEntity()
+        )
+
+// Type erasure removes here java typing and thus create method collision
+@JvmName("AddressListToEntityNullable")
+fun List<com.nikkijuk.model.Address>?.toEntity () =
+        this?.map { it.toEntity() } ?: listOf() // return empty list in case of null
+
+fun com.nikkijuk.model.Address.toEntity () =
+        com.nikkijuk.cosmossample.Address (
+                street = this.street,
+                postalcode = this.postalcode,
+                city = this.city
+        )
