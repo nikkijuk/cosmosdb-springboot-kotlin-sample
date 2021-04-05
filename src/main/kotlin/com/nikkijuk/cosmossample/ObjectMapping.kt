@@ -1,5 +1,10 @@
 package com.nikkijuk.cosmossample
 
+// Type erasure removes here java typing and thus create method collision
+@JvmName("UserListToApi")
+fun List<com.nikkijuk.cosmossample.User>.toApi () =
+        this.map { it.toApi() }
+
 fun com.nikkijuk.cosmossample.User.toApi () =
         com.nikkijuk.model.User (
                 this.id,
@@ -8,12 +13,15 @@ fun com.nikkijuk.cosmossample.User.toApi () =
                 this.addresses.toApi()
         )
 
+// Type erasure removes here java typing and thus create method collision
+@JvmName("AddressListToApi")
 fun List<com.nikkijuk.cosmossample.Address>.toApi () =
-        this.map {
+        this.map { it.toApi() }
+
+fun com.nikkijuk.cosmossample.Address.toApi () =
                 com.nikkijuk.model.Address (
-                        street = it.street,
-                        postalcode = it.postalcode,
-                        city = it.city
+                        street = this.street,
+                        postalcode = this.postalcode,
+                        city = this.city
                         )
-        }
 

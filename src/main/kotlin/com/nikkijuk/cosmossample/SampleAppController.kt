@@ -26,8 +26,9 @@ class SampleAppController @Autowired constructor(
 
     override fun findUsers(): ResponseEntity<List<User>> {
         LOGGER.info("find all")
-        // TODO: find all
-        return ResponseEntity(HttpStatus.OK)
+        val users = userRepository.findAll()
+        LOGGER.info("found users " + users.toString())
+        return ResponseEntity(users.map { it.toApi() }, HttpStatus.OK)
     }
 
     override fun getUserById(@PathVariable("id") id: kotlin.String
