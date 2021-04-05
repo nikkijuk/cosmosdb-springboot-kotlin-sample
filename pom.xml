@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.nikkijuk</groupId>
-  <artifactId>spring-data-cosmos-kotlin-sample</artifactId>
+  <artifactId>cosmossample</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <!--
@@ -19,42 +19,63 @@
   -->
 
   <properties>
+    <!-- required -->
+    <start-class>${project.groupId}.${project.artifactId}.SampleApplication</start-class>
+
+    <java.version>1.8</java.version>
+    <kotlin.version>1.4.32</kotlin.version>
+
     <spring.boot.version>2.4.3</spring.boot.version>
     <azure.spring.data.cosmos.version>3.5.1</azure.spring.data.cosmos.version>
-    <kotlin.version>1.4.32</kotlin.version>
+
+    <openapi-generator.version>5.1.0</openapi-generator.version>
+    <swagger-annotations.version>2.1.7</swagger-annotations.version>
+    <swagger-parser.version>2.0.24</swagger-parser.version>
+
   </properties>
 
   <dependencies>
+
+    <!-- cosmos db -->
+
     <dependency>
       <groupId>com.azure</groupId>
       <artifactId>azure-spring-data-cosmos</artifactId>
       <version>${azure.spring.data.cosmos.version}</version>
     </dependency>
+
+    <!-- spring -->
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-beans</artifactId>
     </dependency>
+
+    <!-- spring boot -->
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>com.vaadin.external.google</groupId>
-          <artifactId>android-json</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
     </dependency>
 
     <!-- kotlin dependencies added -->
@@ -64,20 +85,41 @@
       <artifactId>kotlin-stdlib</artifactId>
       <version>${kotlin.version}</version>
     </dependency>
+
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib-jdk8</artifactId>
       <version>${kotlin.version}</version>
     </dependency>
+
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-reflect</artifactId>
       <version>${kotlin.version}</version>
     </dependency>
+
+    <!-- to pojo or just pogo pogo-->
+
     <dependency>
       <groupId>com.fasterxml.jackson.module</groupId>
       <artifactId>jackson-module-kotlin</artifactId>
       <version>2.9.9</version>
+    </dependency>
+
+    <!-- Swagger Annotation, needed for Code generation -->
+
+    <dependency>
+      <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>${swagger-annotations.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- log -->
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
     </dependency>
 
   </dependencies>
@@ -108,7 +150,7 @@
           <compilerPlugins>
             <plugin>spring</plugin>
           </compilerPlugins>
-          <jvmTarget>1.8</jvmTarget>
+          <jvmTarget>${java.version}</jvmTarget>
         </configuration>
 
         <executions>
@@ -120,7 +162,9 @@
             <configuration>
               <sourceDirs>
                 <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
+                <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
                 <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                <sourceDir>${project.build.directory}/generated-sources/api</sourceDir>
               </sourceDirs>
             </configuration>
           </execution>
@@ -179,13 +223,43 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>2.4.4</version>
-
-        <!-- dunno why main class is not automatically found -->
-        <configuration>
-          <mainClass>com.nikkijuk.cosmossample.SampleApplication</mainClass>
-        </configuration>
+        <version>${spring.boot.version}</version>
       </plugin>
+
+      <plugin>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <version>${openapi-generator.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>io.swagger.parser.v3</groupId>
+            <artifactId>swagger-parser</artifactId>
+            <version>${swagger-parser.version}</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>${basedir}/src/main/resources/api.yaml</inputSpec>
+              <output>target/generated-sources</output>
+              <generatorName>kotlin-spring</generatorName>
+              <generateApis>true</generateApis>
+              <modelPackage>${project.groupId}.model</modelPackage>
+              <apiPackage>${project.groupId}.api</apiPackage>
+              <configOptions>
+                <sourceFolder>api</sourceFolder>
+                <interfaceOnly>true</interfaceOnly>
+                <useBeanValidation>false</useBeanValidation>
+                <enumPropertyNaming>UPPERCASE</enumPropertyNaming>
+              </configOptions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 
@@ -208,6 +282,5 @@
       <url>https://repo.spring.io/libs-release</url>
     </pluginRepository>
   </pluginRepositories>
-
 
 </project>
