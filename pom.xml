@@ -68,6 +68,8 @@
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
+    <!-- Starting with Boot 2.3 you need to add the spring-boot-starter-validation dependency -->
+    <!-- required by api code which open api kotlin-spring genertator generates -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-validation</artifactId>
