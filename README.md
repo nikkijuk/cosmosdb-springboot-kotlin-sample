@@ -14,8 +14,6 @@ See original article for detailed cosmos db setup information
 
 https://docs.microsoft.com/en-us/azure/cosmos-db/create-sql-api-spring-data
 
-
-
 ## Prerequisites
 
 - Kotlin
@@ -39,7 +37,27 @@ Get keys from cosmos db accounts *keys* section and fill application.properties 
 
 ### Test it
 
-mvn clean install spring-boot:run
+Start app
+
+- mvn clean install spring-boot:run
+
+Get existing users as list
+
+- http://127.0.0.1:8080/users/
+
+Get single user
+
+- http://127.0.0.1:8080/users/testId1
+
+Add user
+
+- get json returned by single user 
+- change id
+- post to http://127.0.0.1:8080/users/ with json body
+
+Get added user
+
+- get as single used with new id
 
 ## Resources
 
