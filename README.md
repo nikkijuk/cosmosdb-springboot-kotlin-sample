@@ -42,8 +42,8 @@ Get keys from cosmos db accounts *keys* section and fill application.properties 
 ### Role of controller
 
 - Controller takes requests in
-- Converst request parameters from api model to entities if needed  
-- Executes database operations
+- Converts request parameters from api model to entities if needed  
+- Executes database operations using injected spring data cosmosdb repository
 - Converts responses from entities to api model if needed
 - Returns response
 
