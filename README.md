@@ -6,7 +6,7 @@ Copy of Microsoft azure cosmosdb spring data example app converted to kotlin and
 
 Small example how to use azure cosmosdb spring data SQL API (3.5.1) with spring boot (2.4.3).
 
-Additionally presented how one open api 3.0.3 can be used to generate base API for spring boot rest controllers.
+Additionally presents how to use open api 3.0.3 to generate base API and model classes for spring boot rest controller.
 
 ## Original article
 
@@ -34,6 +34,51 @@ Get keys from cosmos db accounts *keys* section and fill application.properties 
     cosmos.uri=${ACCOUNT_HOST}
     cosmos.key=${ACCOUNT_KEY}
     cosmos.secondaryKey=${SECONDARY_ACCOUNT_KEY}
+
+### Role of application
+
+- Application loads some test data to cosmosdb
+
+### Role of controller
+
+- Controller takes requests in
+- Converst request parameters from api model to entities if needed  
+- Executes database operations
+- Converts responses from entities to api model if needed
+- Returns response
+
+### Code for controller
+
+```
+  @RestController
+  class SampleAppController @Autowired constructor(
+  val userRepository: UserRepository
+  ) : UsersApi {
+
+      private val logger: Logger = LoggerFactory.getLogger(SampleApplication::class.java)
+  
+      override fun createUser(@RequestBody user: User): ResponseEntity<User> {
+          val user = userRepository.save(user.toEntity())
+          logger.info("saved user: $user")
+          return ResponseEntity(user.toApi(), HttpStatus.OK)
+      }
+  
+      override fun findUsers(): ResponseEntity<List<User>> {
+          val users = userRepository.findAll()
+          logger.info("found users: $users")
+          return ResponseEntity(users.map { it.toApi() }, HttpStatus.OK)
+      }
+  
+      override fun getUserById(@PathVariable("id") id: kotlin.String
+      ): ResponseEntity<User> {
+          val user = userRepository.findById(id)
+          logger.info("found with id '$id' user: $user")
+          return user
+                  .map { ResponseEntity(it.toApi(), HttpStatus.OK) }
+                  .orElse(ResponseEntity(HttpStatus.NOT_FOUND))
+      }
+  }
+```
 
 ### Test it
 
