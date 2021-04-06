@@ -36,6 +36,7 @@ class SampleAppConfiguration : AbstractCosmosConfiguration() {
                 .directMode(directConnectionConfig)
     }
 
+    // TODO: why hardcoding here?
     override fun getDatabaseName(): String? = "testdb"
 
     @Bean

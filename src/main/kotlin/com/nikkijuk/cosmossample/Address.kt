@@ -24,7 +24,6 @@ class Address {
     }
 
     @Override
-    override fun toString(): String {
-        return String.format("Address: %s %s %s", street, postalcode, city)
-    }
+    override fun toString() = "[Address: $street, $postalcode $city]"
+
 }

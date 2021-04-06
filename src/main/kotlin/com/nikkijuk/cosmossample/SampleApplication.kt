@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 
 @SpringBootApplication
 class SampleApplication : CommandLineRunner {
+
     private val logger: Logger = LoggerFactory.getLogger(SampleApplication::class.java)
 
     @Autowired

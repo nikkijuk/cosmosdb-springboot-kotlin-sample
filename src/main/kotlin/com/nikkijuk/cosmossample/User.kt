@@ -29,8 +29,6 @@ class User {
     }
 
     @Override
-    override fun toString(): String {
-        return String.format("User: %s %s, %s @ %s", firstName, lastName, id, addresses)
-    }
+    override fun toString() = "[User: $firstName $lastName, $id @ $addresses]"
 
 }
