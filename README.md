@@ -14,6 +14,12 @@ See original article for detailed cosmos db setup information
 
 https://docs.microsoft.com/en-us/azure/cosmos-db/create-sql-api-spring-data
 
+## Slides
+
+Small presentation about this experiment
+
+https://nikkijuk.github.io/cosmosdb/
+
 ## Prerequisites
 
 - Kotlin
