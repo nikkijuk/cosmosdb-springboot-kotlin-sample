@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface UserRepository : CosmosRepository<User, String> {
-
     /**
      * Find with matching first name and return thru iterable
      */
@@ -37,5 +36,4 @@ interface UserRepository : CosmosRepository<User, String> {
      */
     @Query(value = "select c.id, c.firstName, c.lastName, c.addresses from c join a in c.addresses where a.postalcode = @plz")
     fun getUsersByPostalcode(@Param("plz") plz: String): List<User>
-
 }

@@ -10,10 +10,11 @@ info:
 paths:
   /users:
     get:
-      operationId: findUsers
+      operationId: "findUsers"
+      description: "get all users"
       responses:
         '200':
-          description: User response
+          description: "User response"
           content:
             application/json:
               schema:
@@ -29,6 +30,7 @@ paths:
 
     post:
       operationId: "createUser"
+      description: "add user"
       requestBody:
         required: true
         content:
@@ -37,13 +39,13 @@ paths:
               $ref: "#/components/schemas/User"
       responses:
         '200':
-          description:
+          description: "saved user"
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
         default:
-          description: unexpected error
+          description: "unexpected error"
           content:
             application/json:
               schema:
@@ -51,18 +53,18 @@ paths:
   /users/{id}:
     get:
       summary: "Get user by user id"
-      description: ""
+      description: "get single user with id"
       operationId: "getUserById"
       parameters:
         - name: id
           in: path
-          description: ID of pet to fetch
+          description: "id of user"
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: pet response
+          description: "User response"
           content:
             application/json:
               schema:
