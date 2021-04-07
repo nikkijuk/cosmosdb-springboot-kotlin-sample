@@ -39,8 +39,8 @@
 						- Generators for common technologies
 						- "kotlin-spring" for spring boot projects
 						- Generates models and api base classes (stubs)
-						- Base classes can be extended with app logic
-						- Model classes can be extended with transformations
+						- Base classes are extended with inheritance
+						- Model classes are extended with extension methods
 					</textarea>
 				</section>
 				<section data-markdown>
@@ -89,7 +89,7 @@
 						- Native Sql/Core api
 						- Plus MongoDb, Cassandra, Gremlin & Table apis
 						- Data queried with SQL syntax
-						- Data stored in Json
+						- Data stored as Json
 						- Globally distributed, Multitenant, ..
 						- Optimistic Locking, Subqueries, TTL, ..
 					</textarea>
@@ -158,9 +158,15 @@
 					<textarea data-template>
 						## Open issues
 						- sweet spot needs to be found (know when to use)
-						- not useful for high-write data (costs)
+						- possibly not useful for high-write data (costs)
 						- migrations might be hard (need programming)
 						- runs on azure, but still needs expertise (proprietary)
+						- multitenancy needs to be tested
+					</textarea>
+				</section>
+				<section data-markdown>
+					<textarea data-template>
+						END
 					</textarea>
 				</section>
 			</div>
